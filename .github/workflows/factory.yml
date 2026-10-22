@@ -6,7 +6,7 @@ name: Factory
 
 on:
   issues:
-    types: [labeled]
+    types: [labeled, closed]
   issue_comment:
     types: [created]
   pull_request_review_comment:
@@ -23,7 +23,7 @@ jobs:
   # Maintainer labels an issue ai-ready / ai-plan / ai-approved.
   implement:
     if: >-
-      github.event_name == 'issues'
+      github.event_name == 'issues' && github.event.action == 'labeled'
       && contains(fromJSON('["ai-ready", "ai-plan", "ai-approved"]'), github.event.label.name)
     uses: kooditehdas/factory/.github/workflows/implement.yml@v1
     secrets: inherit
@@ -47,6 +47,12 @@ jobs:
           && github.event.comment.user.type != 'Bot'
           && startsWith(github.event.comment.body, '@factory review'))
     uses: kooditehdas/factory/.github/workflows/review.yml@v1
+    secrets: inherit
+
+  # Issue closed: remove the factory's transient ai-* labels.
+  cleanup:
+    if: github.event_name == 'issues' && github.event.action == 'closed'
+    uses: kooditehdas/factory/.github/workflows/cleanup.yml@v1
     secrets: inherit
 
   # CI failed on a factory branch.
