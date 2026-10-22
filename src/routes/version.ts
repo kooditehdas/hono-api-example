@@ -22,4 +22,4 @@ const packageVersion = readPackageVersion();
 
 export const version = new Hono();
 
-version.get("/", (c) => c.json({ version: packageVersion }));
+version.get("/", (c) => c.json({ appVersion: packageVersion }));

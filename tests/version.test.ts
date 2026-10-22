@@ -11,7 +11,7 @@ describe("GET /version", () => {
     const res = await app.request("/version");
 
     expect(res.status).toBe(200);
-    expect(await res.json()).toEqual({ version: pkg.version });
+    expect(await res.json()).toEqual({ appVersion: pkg.version });
   });
 
   it("rejects other methods with a JSON 404", async () => {
