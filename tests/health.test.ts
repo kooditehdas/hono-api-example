@@ -7,7 +7,7 @@ describe("GET /health", () => {
 
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({ status: "ok" });
-    expect(res.headers.get("content-type")).toContain("text/plain");
+    expect(res.headers.get("content-type")).toContain("application/json");
   });
 });
 
